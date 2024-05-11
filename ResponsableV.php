@@ -43,4 +43,13 @@ class ResponsableV {
     public function setApellido ($nuevo){
         $this->apellido = $nuevo;
     }
+
+    public function __toString(){
+        $cadena = "Numero de empleado: " . $this->getNumero() . "\n";
+        $cadena .= "Numero de licencia: " . $this->getLicencia() . "\n";
+        $cadena .= "Nombre: " . $this->getNombre() . "\n";
+        $cadena .= "Apellido: " . $this->getApellido() . "\n";
+
+        return $cadena;
+    }
 }

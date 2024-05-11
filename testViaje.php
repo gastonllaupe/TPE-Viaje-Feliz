@@ -1,6 +1,6 @@
 <?php
-include_once 'Pasajero2.php';
-include 'Viaje2.php';
+include_once 'Pasajero.php';
+include 'Viaje.php';
 include_once 'ResponsableV.php';
 
 $pasajero1 = new Pasajero ("Juan","Lopez","36561842","15326585");
@@ -14,7 +14,7 @@ $viaje1 = new Viaje (37,"Bariloche",5,$arregloPasajeros,$responsable1);
 $arregloViajes = [$viaje1];
 
 function seleccionarOpcion(){
-    echo "Seleccione una opción \n "; 
+    echo "Seleccione una opción \n"; 
     echo "1) Cargar informacion de viaje \n" ;
     echo "2) Modificar informacion de un viaje \n" ;
     echo "3) Ver los datos de un viaje \n";
@@ -70,7 +70,7 @@ do {
                 echo "Introducir otro pasajero? \n 1) Si \n 2) No \n" ;
                 $opcion12 = elegirNumero(1,2);
                 if ($opcion12 == 1){
-                    $masPasajeros = false;
+                    $masPasajeros = true;
                 }elseif ($opcion12 == 2){
                     $masPasajeros = false;
                 }
@@ -108,6 +108,7 @@ do {
                 $nuevoMax = trim(fgets(STDIN));
                 $arregloViajes[$numeroViaje]->setPasajeMax($nuevoMax);
             }
+            echo "Cambios realizados con exito \n";
             break;
         case 3 : //ver los datos de un viaje
             $maxArreglo = count($arregloViajes);
@@ -134,6 +135,7 @@ do {
             $esteArregloPasajeros[$numeroPasajero]->setNombre($nuevoNombre);
             $esteArregloPasajeros[$numeroPasajero]->setApellido($nuevoApellido);
             $esteArregloPasajeros[$numeroPasajero]->setTelefono($nuevoTelefono);
+            echo "Cambios realizados con exito. \n";
             break;
         case 5 : //agregar pasajeros a un viaje
             $maxArreglo = count($arregloViajes);
@@ -171,12 +173,26 @@ do {
                 echo "Cantidad maxima de pasajeros alcanzada \n";
             }
             break;
-        case 6 : // ver el responsable de un viaje
+        case 6 : // modificar el responsable de un viaje
             $maxArreglo = count($arregloViajes);
             echo "Ingrese el numero de viaje al que quiere ver su responsable \n"; 
             $numeroViaje = elegirNumero(1,$maxArreglo);
             $numeroViaje -= 1;
-            echo $arregloViajes[$numeroViaje]->datosResponsable();
+            echo "El responsable a modificar es: " . $arregloViajes[$numeroViaje]->getResponsable() ."\n";
+            echo "Introduzca el nombre del responsable del viaje \n";
+            $respoNo = trim(fgets(STDIN));
+            echo "Introduzca el apellido del responsable del viaje \n";
+            $respoA = trim(fgets(STDIN));
+            echo "Introduzca el numero de empleado \n";
+            $respoN = trim(fgets(STDIN));
+            echo "Introduzca el numero de Licencia \n";
+            $respoL = trim(fgets(STDIN));
+            $respoCambio = $arregloViajes[$numeroViaje]->getResponsable();
+            $respoCambio->setNumero($respoN);
+            $respoCambio->setLicencia($respoL);
+            $respoCambio->setNombre($respoNo);
+            $respoCambio->setApellido($respoA);
+            echo "Cambios realizados con exito, el nuevo responsable es: " . $arregloViajes[$numeroViaje]->getResponsable() . "\n";
             break;
     }
 } while ($opcion != 7);

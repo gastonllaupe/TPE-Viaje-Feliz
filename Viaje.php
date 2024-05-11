@@ -74,23 +74,20 @@ class Viaje{
         $arreglo = $this->getPasajeros();
         $texto = "";
         for($i=0; $i < count($arreglo); $i++){
-            $texto .= $arreglo[$i]->getNombre() . " " . $arreglo[$i]->getApellido() . " " . $arreglo[$i]->getNumeroDoc() . " " . $arreglo[$i]->getTelefono() . "\n";
+            $numero = $i + 1;
+            $texto .=  "Pasajero Numero " . $numero . ": \n" . $arreglo[$i] . "\n";
         }
         return $texto;
     }
 
-    public function datosResponsable () {
-        $objResp = $this->getResponsable();
-        $texto = $objResp->getnumero() . " " . $objResp->getLicencia() . " " . $objResp ->getNombre() . " " . $objResp->getApellido() ;
-        return $texto;
-    }
 
     public function pasajeroExiste ($dni){
-    $m = count($this->getPasajeros());
+    $UnarregloPasajeros = $this->getPasajeros();
+    $m = count($UnarregloPasajeros);
     $i = 0;
     $existe = false;
     while ($i < $m && !$existe) {
-        if ($this->getPasajeros()[$i]->getNumeroDoc() == $dni){
+        if ($UnarregloPasajeros[$i]->getNumeroDoc() == $dni){
             $existe = true;
         }
         $i += 1;
@@ -100,6 +97,11 @@ class Viaje{
     
 
     public function __toString(){
-        return $this->getCodigo() . " " . $this->getDestino() . " " . $this->getPasajeMax() . " " . $this->datosResponsable() . "\n" . $this->datosPasajeros() . "\n";
+        $cadena ="Codigo: " . $this->getCodigo() . "\n";
+        $cadena .= "Destino: " . $this->getDestino() . "\n";
+        $cadena .= "Maximo de pasajeros: " . $this->getPasajeMax() . "\n";
+        $cadena .= "Datos del responsable: \n__________________________________________ \n" . $this->getResponsable() . "\n";
+        $cadena .= "Datos de los pasajeros: \n__________________________________________ \n" . $this->datosPasajeros() . "\n";
+        return $cadena;
     }
 }
