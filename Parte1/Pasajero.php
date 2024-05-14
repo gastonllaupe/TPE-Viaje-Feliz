@@ -35,4 +35,12 @@ class Pasajero{
         $this->numeroDoc = $nuevo;
     }
 
+    public function __toString(){
+        $cadena = "Nombre: " . $this->getNombre() . "\n";
+        $cadena .= "Apellido: " . $this->getApellido() . "\n";
+        $cadena .= "Numero de documento: " . $this->getNumeroDoc() . "\n";
+        $cadena .= "Numero de telefono: " . $this->getTelefono() . "\n";
+        return $cadena;
+    }
+
 }

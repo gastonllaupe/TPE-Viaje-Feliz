@@ -60,12 +60,18 @@ class Viaje{
         $arreglo = $this->getPasajeros();
         $texto = "";
         for($i=0; $i < count($arreglo); $i++){
-            $texto .= $arreglo[$i]->getNombre() . " " . $arreglo[$i]->getApellido() . " " . $arreglo[$i]->getNumeroDoc() . "\n";
+            $numero = $i + 1;
+            $texto .=  "Pasajero Numero " . $numero . ": \n" . $arreglo[$i] . "\n";
         }
         return $texto;
     }
 
     public function __toString(){
-        return $this->getCodigo() . " " . $this->getDestino() . " " . $this->getPasajeMax() . "\n" . $this->datosPasajeros() . "\n";
+        $cadena ="Codigo: " . $this->getCodigo() . "\n";
+        $cadena .= "Destino: " . $this->getDestino() . "\n";
+        $cadena .= "Maximo de pasajeros: " . $this->getPasajeMax() . "\n";
+        $cadena .= "Datos del responsable: \n__________________________________________ \n" . $this->getResponsable() . "\n";
+        $cadena .= "Datos de los pasajeros: \n__________________________________________ \n" . $this->datosPasajeros() . "\n";
+        return $cadena;
     }
 }
