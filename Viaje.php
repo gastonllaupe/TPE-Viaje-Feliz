@@ -4,15 +4,19 @@ class Viaje{
     private $codigoViaje;
     private $destino;
     private $pasajerosMax;
-    private $pasajeros = [];
+    private $pasajeros = null;
     private $responsableV;
+    private $costoViaje;
+    private $costoPasajeros;
 
-    public function __construct($codViaje,$destin,$pasajeMax,$pasaje,$responsable){
+    public function __construct($codViaje,$destin,$pasajeMax,$pasaje,$responsable,$cost){
         $this->codigoViaje = $codViaje;
         $this->destino = $destin;
         $this->pasajerosMax = $pasajeMax;
         $this->pasajeros = $pasaje;
         $this->responsableV = $responsable;
+        $this->costoViaje=$cost;
+        $this->costoPasajeros = definirCostoPasajeros();
     }
 
     public function getCodigo (){
@@ -35,6 +39,14 @@ class Viaje{
         return $this->responsableV;
     }
 
+    public function getCosto(){
+        return $this->costoViaje;
+    }
+
+    public function getCostoP(){
+        return $this->costoPasajeros;
+    }
+
     public function setCodigo ($nuevo){
         $this->codigoViaje = $nuevo;
     }
@@ -49,6 +61,14 @@ class Viaje{
 
     public function setResponsabe ($nuevo){
         $this->responsableV = $nuevo;
+    }
+
+    public function setCosto($nuevo){
+        $this->costoViaje=$nuevo;
+    }
+
+    public function setCostoP($nuevo){
+        $this->costoPasajeros=$nuevo;
     }
 
     public function setPasajerosNombre ($indice,$nuevo){
@@ -95,6 +115,46 @@ class Viaje{
     return $existe;
     }
     
+    public function definirCostoUnPasajero($pasajero){
+        $porcentaje = $pasajero->darPorcentajeIncremento();
+        $costo = $this->getCosto();
+        $porcentajeF = ($porcentaje * $costo) / 100;
+        $costo = $costo + $porcentajeF;
+        return $costo;
+    }
+
+    public function definirCostoPasajeros(){
+        $costoFinal = 0;
+        if (!$this->getPasajeros()==null){
+            $copiaPasajeros = $this->getPasajeros();
+            foreach($copiaPasajeros as $Pasajero){
+                $costo = $this->definirCostoUnPasajero($Pasajero);
+                $costoFinal = $costoFinal + $costo;
+            }
+            return $costoFinal;
+        }
+    }
+
+    public function venderPasaje($objPasajero){
+        $costoFP = 0;
+        if ($this->hayPasajesDisponible()){
+            $arrayPasajerosCopia = $this->getPasajeros();
+            array_push($arrayPasajerosCopia,$objPasajero);
+            $this->setPasajeros($arrayPasajerosCopia);
+            $nuevoCosto = $this->definirCostoPasajeros();
+            $this->setCostoP($nuevoCosto);
+            $costoFP = definirCostoUnPasajero($objPasajero);
+        }
+        return $costoFP;
+    }
+
+    public function hayPasajesDisponible(){
+        $disponible = false;
+        if (count($this->getPasajeros) < $this->getPasajeMax){
+            $disponible = true;
+        }
+        return $disponible;
+    }
 
     public function __toString(){
         $cadena ="Codigo: " . $this->getCodigo() . "\n";
